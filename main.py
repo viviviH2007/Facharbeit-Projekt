@@ -1,20 +1,28 @@
-import pygame
-from sys import exit
+import pygame, sys
+from settings import* #der Code von der Datei Setting wird hier auch verwendet
+from overworld import Overworld
+
+class Game:
+    def __init__(self):
+        self.max_level=3
+        self.overworld = Overworld(0,self.max_level,screen)
+        
+    def run(self):
+        self.overworld.run()
 
 pygame.init()
-screen = pygame.display.set_mode((800,400))
-pygame.display.set_caption("Spiel")
-clock = pygame.time.Clock()
+screen=pygame.display.set_mode((screen_width,screen_height))
+clock=pygame.time.Clock()
+game=Game()
 
-test_surface = pygame.image.load("")
-
-while True: #Auf dieser Schleife aufgebaut
+while True:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type ==pygame.QUIT():
             pygame.quit()
-            exit()       
-    screen.blit(test_surface,(0,0)) # Nullpunkt ist Oben Links
-    # alle Elemente
+            sys.exit()
+
+    screen.fill('black')
+    game.run()
     
     pygame.display.update()
-    clock.tick(60) # Begrenzung der Frame-Rate für die Geschwindigkeit des Spiels 
+    clock.tick(60)
