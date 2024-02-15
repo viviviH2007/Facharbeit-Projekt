@@ -6,8 +6,6 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-BLUE = (0, 0, 255)
-RED = (255, 0, 0)
 FPS = 60
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 50
@@ -20,7 +18,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pygame.Surface((PLAYER_WIDTH, PLAYER_HEIGHT))
-        self.image.fill(BLUE)
+        self.image.fill('BLUE')
         self.rect = self.image.get_rect()
         self.rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - PLAYER_HEIGHT - GROUND_HEIGHT)
         self.vel_y = 0
@@ -68,7 +66,7 @@ while running:
     all_sprites.update()
 
     # Draw
-    screen.fill(WHITE)
+    screen.fill('WHITE')
     pygame.draw.rect(screen, 'green', (0, SCREEN_HEIGHT - GROUND_HEIGHT, SCREEN_WIDTH, GROUND_HEIGHT))
     all_sprites.draw(screen)
     pygame.display.flip()

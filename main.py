@@ -11,13 +11,13 @@ class Game:
         self.overworld.run()
 
 pygame.init()
-screen=pygame.display.set_mode((screen_width,screen_height))
+screen=pygame.display.set_mode((10,10))
 clock=pygame.time.Clock()
 game=Game()
 
 while True:
     for event in pygame.event.get():
-        if event.type ==pygame.QUIT():
+        if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
 
