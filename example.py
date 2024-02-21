@@ -1,11 +1,8 @@
 import pygame
 import sys
-
+from settings import*
 # Constants
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
+
 FPS = 60
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 50
@@ -18,9 +15,9 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pygame.Surface((PLAYER_WIDTH, PLAYER_HEIGHT))
-        self.image.fill('BLUE')
+        self.image.fill('red')
         self.rect = self.image.get_rect()
-        self.rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - PLAYER_HEIGHT - GROUND_HEIGHT)
+        self.rect.center = (screen_width // 2, screen_heigth - PLAYER_HEIGHT - GROUND_HEIGHT)
         self.vel_y = 0
         self.is_jump = False
 
@@ -28,8 +25,10 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.rect.x -= 5
-        if keys[pygame.K_RIGHT]:
+        elif keys[pygame.K_RIGHT]:
             self.rect.x += 5
+        else:
+            self.direction.x = 0
 
         if not self.is_jump:
             if keys[pygame.K_SPACE]:
@@ -39,14 +38,11 @@ class Player(pygame.sprite.Sprite):
         if self.is_jump:
             self.vel_y += GRAVITY
             self.rect.y += self.vel_y
-            if self.rect.bottom >= SCREEN_HEIGHT - GROUND_HEIGHT:
+            if self.rect.bottom >= screen_heigth - GROUND_HEIGHT:
                 self.is_jump = False
-                self.rect.bottom = SCREEN_HEIGHT - GROUND_HEIGHT
+                self.rect.bottom = screen_heigth - GROUND_HEIGHT
 
 # Initialize Pygame
-pygame.init()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Jump and Run")
 clock = pygame.time.Clock()
 
 # Create sprites
@@ -66,8 +62,6 @@ while running:
     all_sprites.update()
 
     # Draw
-    screen.fill('WHITE')
-    pygame.draw.rect(screen, 'green', (0, SCREEN_HEIGHT - GROUND_HEIGHT, SCREEN_WIDTH, GROUND_HEIGHT))
     all_sprites.draw(screen)
     pygame.display.flip()
 

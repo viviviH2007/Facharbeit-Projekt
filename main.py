@@ -1,28 +1,29 @@
-import pygame, sys
-from settings import* #der Code von der Datei Setting wird hier auch verwendet
-from overworld import Overworld
+from einstellung import*
+from game_data import Level
+from pytmx.util_pygame import load_pygame
+from os.path import join
 
 class Game:
     def __init__(self):
-        self.max_level=3
-        self.overworld = Overworld(0,self.max_level,screen)
+        pygame.init()
+        self.display_surface = pygame.display.set_mode((window_width, window_height))
+        pygame.display.set_caption('Za World')
+        self.clock = pygame.time.Clock()
         
-    def run(self):
-        self.overworld.run()
+        self.tmx_maps = {0: load_pygame(join('.', 'data', 'tmx', 'first.tmx'))}
+        self.current_stage = Level(self.tmx_maps[0])
 
-pygame.init()
-screen=pygame.display.set_mode((10,10))
-clock=pygame.time.Clock()
-game=Game()
+    def run (self):
+        while True:
+            dt = self.clock.tick(60) / 1000
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+            self.current_stage.run(dt)
+            pygame.display.update()
 
-    screen.fill('black')
+if __name__== '__main__':        
+    game = Game()
     game.run()
-    
-    pygame.display.update()
-    clock.tick(60)

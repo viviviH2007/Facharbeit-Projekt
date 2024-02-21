@@ -6,16 +6,22 @@ class Tile(pygame.sprite.Sprite):
         super().__init__(groups)
         self.image = surf
         self.rect = self.image.get_rect(topleft = pos)
-
+screen_heigth = 1000
+screen_width = 1600
 pygame.init()
-screen= pygame.display.set_mode((1280,720))
-tmx_first= load_pygame('../Facharbeit Projekt/data/tmx/first.tmx')
+screen= pygame.display.set_mode((screen_width,screen_heigth))
+tmx_first= load_pygame('./data/tmx/first.tmx')
 sprite_group = pygame.sprite.Group()
 for layer in tmx_first.visible_layers:
     if hasattr(layer,'data'):
         for x,y,surf in layer.tiles():
             pos = (x * 32,y * 32)
             Tile(pos = pos, surf = surf, groups = sprite_group)
+
+for obj in tmx_first.objects:
+    pos = obj.x,obj.y
+    Tile(pos = pos, surf = obj.image, groups = sprite_group )
+
 
 #for obj in tmx_data.objects:
  #   pos = obj.x,obj.y
