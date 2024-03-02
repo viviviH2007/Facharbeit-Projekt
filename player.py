@@ -36,7 +36,7 @@ class Player(pygame.sprite.Sprite):
         input_vector = vector(0,0)
         if not self.timers['wall jump'].active:# if timer active, no left or right input is active
             if keys[pygame.K_RIGHT]:
-               input_vector.x +=1
+                input_vector.x +=1
             if keys[pygame.K_LEFT]:
                 input_vector.x -=1
             self.direction.x = input_vector.normalize().x if input_vector else input_vector.x # normalize only x
