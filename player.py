@@ -27,7 +27,7 @@ class Player(pygame.sprite.Sprite):
         # timer
         self.timers = { # list
             'wall jump': Timer(200),
-            'jump window': Timer(250)
+            'jump window': Timer(300)
         }
         
 
@@ -35,10 +35,10 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         input_vector = vector(0,0)
         if not self.timers['wall jump'].active:# if timer active, no left or right input is active
-            if keys[pygame.K_RIGHT]:
-                input_vector.x +=1
-            if keys[pygame.K_LEFT]:
-                input_vector.x -=1
+            if keys[pygame.K_d]:
+                input_vector.x +=2
+            if keys[pygame.K_a]:
+                input_vector.x -=2
             self.direction.x = input_vector.normalize().x if input_vector else input_vector.x # normalize only x
 
         if keys[pygame.K_SPACE]:
@@ -48,17 +48,17 @@ class Player(pygame.sprite.Sprite):
 
     def move(self, dt):
         # horizontal
-        self.rect.x += self.direction.x * self.speed * dt
+        self.rect.x += self.direction.x * self.speed / 60
         self.collision('horizontal')
 
         #vertical
         if not self.on_surface['floor'] and any ((self.on_surface['left'], self.on_surface['right'])) and not self.timers['jump window'].active:
             self.direction.y = 0
-            self.rect.y += self.gravity / 3 * dt
+            self.rect.y += self.gravity / 180
         else:
-            self.direction.y += self.gravity * dt / 2 * dt      # gravity
-            self.rect.y += self.direction.y * self.speed * dt
-            self.direction.y += self.gravity * dt / 2 * dt
+            self.direction.y += self.gravity / 60 / 120      # gravity
+            self.rect.y += self.direction.y * self.speed / 60
+            self.direction.y += self.gravity / 60 / 120
             
         if self.jump:
             if self.on_surface['floor']:
@@ -111,10 +111,9 @@ class Player(pygame.sprite.Sprite):
 
 
 
-    def update(self, dt):
+    def update(self, t):
         self.old_rect = self.rect.copy()
         self.update_timers()
         self.input()
-        self.move(dt)
+        self.move(t)
         self.check_contact()
-        
